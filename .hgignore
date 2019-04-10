@@ -56,3 +56,5 @@ tests/.testing_download_cache/
 prof/
 *.eggs
 .coverage
+
+src/mbf_sampledata/data/mbf_bam/spliced_reads.blocks
