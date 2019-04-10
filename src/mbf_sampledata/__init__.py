@@ -1,4 +1,6 @@
-from pkgutil import get_data
+import sys
+from pathlib import Path
 
-def get_path(fn):
-    return get_data('mbf_sampledata', fn)
+def get_sample_data(fn):
+    here = Path(__file__).parent
+    return str((here / 'data' / fn).absolute())
