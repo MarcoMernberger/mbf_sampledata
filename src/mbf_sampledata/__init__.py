@@ -2,14 +2,15 @@ import sys
 import pandas as pd
 from pathlib import Path
 
+
 def get_sample_data(fn):
     here = Path(__file__).parent
-    return str((here / 'data' / fn).absolute())
+    return str((here / "data" / fn).absolute())
+
 
 def get_sample_path(fn):
     here = Path(__file__).parent
-    return (here / 'data' / fn).absolute()
-
+    return (here / "data" / fn).absolute()
 
 
 def get_human_22_fake_genome():
@@ -22,31 +23,39 @@ def get_human_22_fake_genome():
     tr = pd.read_msgpack(
         gzip.GzipFile(get_sample_data(Path("mbf_align/hs_22_transcripts.msgpack.gz")))
     ).reset_index()
-    return MockGenome(df_genes=genes, df_transcripts=tr, chr_lengths={"22": 50818468})
+    return MockGenome(df_genes=genes, df_transcripts=tr, chr_lengths={"22": 50_818_468})
+
 
 def get_Candidatus_carsonella_ruddii_pv(name=None, **kwargs):
     """A FilebasedGenome used by other libraries for their tests"""
     from mbf_genomes import FileBasedGenome
+
     if name is None:  # pragma: no cover
         name = "Candidatus_carsonella"
     return FileBasedGenome(
         name,
-        get_sample_path("mbf_genomes/Candidatus_carsonella_ruddii_pv.ASM1036v1.dna.toplevel.fa.gz"),
-        get_sample_path("mbf_genomes/Candidatus_carsonella_ruddii_pv.ASM1036v1.42.gtf.gz"),
-        get_sample_path("mbf_genomes/Candidatus_carsonella_ruddii_pv.ASM1036v1.cdna.all.fa.gz"),
-        get_sample_path("mbf_genomes/Candidatus_carsonella_ruddii_pv.ASM1036v1.pep.all.fa.gz"),
+        get_sample_path(
+            "mbf_genomes/Candidatus_carsonella_ruddii_pv.ASM1036v1.dna.toplevel.fa.gz"
+        ),
+        get_sample_path(
+            "mbf_genomes/Candidatus_carsonella_ruddii_pv.ASM1036v1.42.gtf.gz"
+        ),
+        get_sample_path(
+            "mbf_genomes/Candidatus_carsonella_ruddii_pv.ASM1036v1.cdna.all.fa.gz"
+        ),
+        get_sample_path(
+            "mbf_genomes/Candidatus_carsonella_ruddii_pv.ASM1036v1.pep.all.fa.gz"
+        ),
         **kwargs,
     )
+
 
 def get_pasilla_data_subset():
     from mbf_genomics import DelayedDataFrame
     import numpy as np
 
     pasilla_data = pd.read_csv(
-        get_sample_path(
-            "mbf_comparisons/pasillaCount_deseq2.tsv.gz"
-        ),
-        sep=" ",
+        get_sample_path("mbf_comparisons/pasillaCount_deseq2.tsv.gz"), sep=" "
     )
     # pasilla_data = pasilla_data.set_index('Gene')
     pasilla_data.columns = [str(x) for x in pasilla_data.columns]
@@ -61,4 +70,3 @@ def get_pasilla_data_subset():
     pasilla_data = pasilla_data.sort_values("abslog2FC", ascending=False)[:1000]
     pasilla_data = DelayedDataFrame("pasilla", pasilla_data)
     return pasilla_data, treated, untreated
-
