@@ -2,6 +2,8 @@ import sys
 import pandas as pd
 from pathlib import Path
 
+__version__ = "0.1"
+
 
 def get_sample_data(fn):
     here = Path(__file__).parent
